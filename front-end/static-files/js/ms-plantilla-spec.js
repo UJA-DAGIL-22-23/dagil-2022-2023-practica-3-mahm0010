@@ -6,6 +6,30 @@
  */
 
 // SPECS para Jasmine
+describe("Pie table ", function () {
+    it("debería devolver las etiquetas HTML para el pie de tabla",
+        function () {
+            expect(Plantilla.pieTable()).toBe("</tbody></table>");
+        });
+});
+
+describe("cuerpoConTenistasTr ", function () {
+
+    // Preparo los datos
+    let d = {
+        nombre: "el nombre del tenista"
+    }
+
+    let p = { data: d }
+
+    // Realizo los expect
+    it("debería devolver una fila de tabla con los datos de un tenista",
+        function () {
+            let msj = Plantilla.cuerpoTr(p)
+            expect(msj.includes(d.nombre)).toBeTrue();
+        });
+});
+
 
 // Constantes para usar en las pruebas
 const elementoTitulo = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_TITULO)

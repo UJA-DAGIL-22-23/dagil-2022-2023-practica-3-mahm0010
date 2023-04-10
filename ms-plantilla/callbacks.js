@@ -74,10 +74,30 @@ const CB_MODEL_SELECTS = {
                     q.Lambda("X", q.Get(q.Var("X")))
                 )
             )
-            // console.log( tenistas ) // Para comprobar qué se ha devuelto en personas
+            // console.log( tenistas ) // Para comprobar qué se ha devuelto en tenistas
             CORS(res)
                 .status(200)
                 .json(tenistas)
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+    * Método para obtener un tenista de la BBDD a partir de su ID
+    * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+    * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+    */
+    getPorId: async (req, res) => {
+        try {
+            // console.log( "getPorId req", req.params.idTenista ) // req.params contiene todos los parámetros de la llamada
+            let tenista = await client.query(
+                q.Get(q.Ref(q.Collection('Jugadores'), req.params.idTenista))
+            )
+            // console.log( tenista ) // Para comprobar qué se ha devuelto en tenista
+            CORS(res)
+                .status(200)
+                .json(tenista)
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })
         }

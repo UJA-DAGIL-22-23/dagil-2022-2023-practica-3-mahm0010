@@ -50,6 +50,7 @@ Plantilla.cabeceraTable = function () {
     return `<table class="listado-tenistas">
         <thead>
         <th>Nombre</th>
+        <th>Acciones</th>
         </thead>
         <tbody>
     `;
@@ -58,13 +59,16 @@ Plantilla.cabeceraTable = function () {
 /**
  * Muestra la información de cada tenista en un elemento TR con sus correspondientes TD
  * @param {tenista} t Datos del tenista a mostrar
- * @returns Cadena conteniendo todo el elemento TR que muestra el proyecto.
+ * @returns Cadena conteniendo todo el elemento TR que muestra el tenista.
  */
 Plantilla.cuerpoTr = function (t) {
     const d = t.data;
-    
-    return `<tr>
+    console.log(t);
+    return `<tr title="${t.ref['@ref'].id}">
     <td><em>${d.nombre}</em></td>
+    <td>
+        <div><a href="javascript:Plantilla.mostrar('${t.ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+    </td>
     </tr>
     `;
 }
@@ -104,9 +108,56 @@ Plantilla.listar = function () {
     this.recupera(this.imprime);
 }
 
+/**
+ * Función principal para mostrar los datos de un tenista desde el MS y, posteriormente, imprimirlo.
+ * @param {String} idTenista Identificador del tenista a mostrar
+ */
+Plantilla.mostrar = function (idTenista) {
+    this.recuperaUnTenista(idTenista, this.imprimeUnTenista);
+}
 
+/**
+ * Función que recupera un tenista llamando al MS Plantilla. 
+ * Posteriormente, llama a la función callBackFn para trabajar con los datos recuperados.
+ * @param {String} idTenista Identificador del tenista a mostrar
+ * @param {función} callBackFn Función a la que se llamará una vez recibidos los datos.
+ */
+Plantilla.recuperaUnTenista = async function (idTenista, callBackFn) {
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idTenista
+        const response = await fetch(url);
+        if (response) {
+            const tenista = await response.json()
+            callBackFn(tenista)
+        }
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway al recuperar un tenista")
+        console.error(error)
+    }
+}
 
+/**
+ * Función para mostrar en pantalla los datos del tenista recuperado.
+ * @param {Tenista} tenista Datos del tenista a mostrar
+ */
+Plantilla.imprimeUnTenista = function (tenista) {
+    console.log( tenista ) // Para comprobar lo que hay en tenista
+    const fechaNac = `${tenista.data.fechaNac.dia}/${tenista.data.fechaNac.mes}/${tenista.data.fechaNac.ano}`;
+    const partMundial = tenista.data.partMundial.join(", ");
+    let msj = "";
+    msj += `<table class="listado-tenistas">
+            <tbody>
+                <tr><th>Nombre</th><td>${tenista.data.nombre}</td></tr>
+                <tr><th>Apellidos</th><td>${tenista.data.apellidos}</td></tr>
+                <tr><th>Fecha Nacimiento</th><td>${fechaNac}</td></tr>
+                <tr><th>Participaciones en mundiales</th><td>${partMundial}</td></tr>
+                <tr><th>Número de medallas</th><td>${tenista.data.numMedallas}</td></tr>
+            </tbody>
+        </table>`;
 
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar( "Detalle de tenista", msj )
+}
 
 
 

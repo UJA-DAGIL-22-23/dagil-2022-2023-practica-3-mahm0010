@@ -80,11 +80,72 @@ function esperar(ms) {
 
 // SPECS a probar
 
+
+describe("Pruebas para la función Plantilla.imprime()", function () {
+  
+    it("Comprueba que se ordena la tabla por nombre", function () {
+      Plantilla.imprime(datosTenistasPrueba);
+      const botonOrdenarNombre = document.querySelector("#ordenar-nombre");
+      expect(botonOrdenarNombre).toBeDefined();
+      spyOn(Array.prototype, "sort");
+      botonOrdenarNombre.click();
+      expect(Array.prototype.sort).toHaveBeenCalled();
+    });
+  
+    it("Comprueba que se ordena la tabla por apellidos", function () {
+      Plantilla.imprime(datosTenistasPrueba);
+      const botonOrdenarApellidos = document.querySelector("#ordenar-apellidos");
+      expect(botonOrdenarApellidos).toBeDefined();
+      spyOn(Array.prototype, "sort");
+      botonOrdenarApellidos.click();
+      expect(Array.prototype.sort).toHaveBeenCalled();
+    });
+
+    it("Comprueba que se ordena la tabla por fecha de nacimiento", function () {
+        Plantilla.imprime(datosTenistasPrueba);
+        const botonFechaNac = document.querySelector("#ordenar-fechaNac");
+        expect(botonFechaNac).toBeDefined();
+        spyOn(Array.prototype, "sort");
+        botonFechaNac.click();
+        expect(Array.prototype.sort).toHaveBeenCalled();
+      });
+
+      it("Comprueba que se ordena la tabla por participaciones en mundiales", function () {
+        Plantilla.imprime(datosTenistasPrueba);
+        const botonPartMundial = document.querySelector("#ordenar-partMundial");
+        expect(botonPartMundial).toBeDefined();
+        spyOn(Array.prototype, "sort");
+        botonPartMundial.click();
+        expect(Array.prototype.sort).toHaveBeenCalled();
+      });
+
+      it("Comprueba que se ordena la tabla por número de medallas", function () {
+        Plantilla.imprime(datosTenistasPrueba);
+        const botonOrdenarMedallas = document.querySelector("#ordenar-numMedallas");
+        expect(botonOrdenarMedallas).toBeDefined();
+        spyOn(Array.prototype, "sort");
+        botonOrdenarMedallas.click();
+        expect(Array.prototype.sort).toHaveBeenCalled();
+      });
+})
+
+
+
+
+
+
+
 describe("Plantilla.cuerpoTr: ", function () {
     it("la tabla con el listado de los tenistas se genera correctamente",
       function () {
         let msj = Plantilla.cuerpoTr(datosTenistasPrueba[0])
             expect(msj.includes(datosTenistasPrueba[0].data.nombre)).toBeTrue();
+            expect(msj.includes(datosTenistasPrueba[0].data.apellidos)).toBeTrue();
+            expect(msj.includes(datosTenistasPrueba[0].data.fechaNac.dia)).toBeTrue();
+            expect(msj.includes(datosTenistasPrueba[0].data.fechaNac.mes)).toBeTrue();
+            expect(msj.includes(datosTenistasPrueba[0].data.fechaNac.ano)).toBeTrue();
+            expect(msj.includes(datosTenistasPrueba[0].data.partMundial[0])).toBeDefined();
+            expect(msj.includes(datosTenistasPrueba[0].data.numMedallas)).toBeTrue();
       })
   })
 

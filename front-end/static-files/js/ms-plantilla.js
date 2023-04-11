@@ -49,7 +49,11 @@ Plantilla.recupera = async function (callBackFn) {
 Plantilla.cabeceraTable = function () {
     return `<table class="listado-tenistas">
         <thead>
-        <th>Nombre</th>
+        <th><a href="#" id="ordenar-nombre">Nombre</a></th>
+        <th><a href="#" id="ordenar-apellidos">Apellidos</a></th>
+        <th><a href="#" id="ordenar-fechaNac">Fecha de nacimiento</a></th>
+        <th><a href="#" id="ordenar-partMundial">Participaciones mundiales</a></th>
+        <th><a href="#" id="ordenar-numMedallas">Número de medallas</a></th>
         <th>Acciones</th>
         </thead>
         <tbody>
@@ -63,9 +67,12 @@ Plantilla.cabeceraTable = function () {
  */
 Plantilla.cuerpoTr = function (t) {
     const d = t.data;
-    console.log(t);
     return `<tr title="${t.ref['@ref'].id}">
     <td><em>${d.nombre}</em></td>
+    <td><em>${d.apellidos}</em></td>
+    <td><em>${d.fechaNac.dia}/${d.fechaNac.mes}/${d.fechaNac.ano}</em></td>
+    <td><em>${d.partMundial.join(", ")}</em></td>
+    <td><em>${d.numMedallas}</em></td>
     <td>
         <div><a href="javascript:Plantilla.mostrar('${t.ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
     </td>
@@ -81,24 +88,119 @@ Plantilla.pieTable = function () {
     return "</tbody></table>";
 }
 
-
-
-
-/**
- * Función para mostrar en pantalla todos los tenistas que se han recuperado de la BBDD.
- * @param {Vector_de_tenistas} vector Vector con los datos de los tenistas a mostrar
- */
 Plantilla.imprime = function (vector) {
     console.log( vector ) // Para comprobar lo que hay en vector
     let msj = "";
     msj += Plantilla.cabeceraTable();
+
     vector.forEach(e => msj += Plantilla.cuerpoTr(e))
     msj += Plantilla.pieTable();
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar( "Listado de tenistas", msj )
 
+    // Manejador de eventos para ordenar la tabla por nombre
+    const tabla = document.querySelector(".listado-tenistas");
+    const botonOrdenarNombre = document.querySelector("#ordenar-nombre");
+    botonOrdenarNombre.addEventListener("click", function(e) {
+        e.preventDefault();
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const ordenInicial = botonOrdenarNombre.dataset.orden === undefined || botonOrdenarNombre.dataset.orden === "desc";
+        const factor = ordenInicial ? -1 : 1;
+        botonOrdenarNombre.dataset.orden = ordenInicial ? "asc" : "desc";
+        arrFilas.sort(function(a, b) {
+            const aNombre = a.querySelector("td:first-child em").textContent;
+            const bNombre = b.querySelector("td:first-child em").textContent;
+            return aNombre.localeCompare(bNombre) * factor;
+        });
+        arrFilas.forEach(function(fila) {
+            tabla.querySelector("tbody").appendChild(fila);
+        });
+    });
+
+    // Manejador de eventos para ordenar la tabla por apellidos
+    const botonOrdenarApellidos = document.querySelector("#ordenar-apellidos");
+    botonOrdenarApellidos.addEventListener("click", function(e) {
+        e.preventDefault();
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const ordenInicial = botonOrdenarApellidos.dataset.orden === undefined || botonOrdenarApellidos.dataset.orden === "desc";
+        const factor = ordenInicial ? -1 : 1;
+        botonOrdenarApellidos.dataset.orden = ordenInicial ? "asc" : "desc";
+        arrFilas.sort(function(a, b) {
+            const aApellidos = a.querySelector("td:nth-child(2) em").textContent;
+            const bApellidos = b.querySelector("td:nth-child(2) em").textContent;
+            return aApellidos.localeCompare(bApellidos) * factor;
+        });
+        arrFilas.forEach(function(fila) {
+            tabla.querySelector("tbody").appendChild(fila);
+        });
+    });
+
+    // Manejador de eventos para ordenar la tabla por fecha de nacimiento
+    const botonFechaNac = document.querySelector("#ordenar-fechaNac");
+    botonFechaNac.addEventListener("click", function(e) {
+        e.preventDefault();
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const ordenInicial = botonFechaNac.dataset.orden === undefined || botonFechaNac.dataset.orden === "desc";
+        const factor = ordenInicial ? -1 : 1;
+        botonFechaNac.dataset.orden = ordenInicial ? "asc" : "desc";
+        arrFilas.sort(function(a, b) {
+            const aFechaNac = a.querySelector("td:nth-child(3) em").textContent;
+            const bFechaNac = b.querySelector("td:nth-child(3) em").textContent;
+            const aFechaNacDate = new Date(Date.parse(aFechaNac.split("/").reverse().join("-")));
+            const bFechaNacDate = new Date(Date.parse(bFechaNac.split("/").reverse().join("-")));
+            return (aFechaNacDate - bFechaNacDate) * factor;
+        });
+        arrFilas.forEach(function(fila) {
+            tabla.querySelector("tbody").appendChild(fila);
+        });
+    });
+
+    // Manejador de eventos para ordenar la tabla por número de mundiales en los que ha participado
+    const botonPartMundial = document.querySelector("#ordenar-partMundial");
+    botonPartMundial.addEventListener("click", function(e) {
+        e.preventDefault();
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const ordenInicial = botonPartMundial.dataset.orden === undefined || botonPartMundial.dataset.orden === "desc";
+        const factor = ordenInicial ? -1 : 1;
+        botonPartMundial.dataset.orden = ordenInicial ? "asc" : "desc";
+        arrFilas.sort(function(a, b) {
+            const aPartMundial = a.querySelector("td:nth-child(4) em").textContent.split(',').length;
+            const bPartMundial = b.querySelector("td:nth-child(4) em").textContent.split(',').length;
+            return (aPartMundial - bPartMundial) * factor;
+        });
+        arrFilas.forEach(function(fila) {
+            tabla.querySelector("tbody").appendChild(fila);
+        });
+    });
+
+    // Manejador de eventos para ordenar la tabla por número de medallas
+    const botonOrdenarMedallas = document.querySelector("#ordenar-numMedallas");
+    botonOrdenarMedallas.addEventListener("click", function(e) {
+        e.preventDefault();
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const ordenInicial = botonOrdenarMedallas.dataset.orden === undefined || botonOrdenarMedallas.dataset.orden === "desc";
+        const factor = ordenInicial ? -1 : 1;
+        botonOrdenarMedallas.dataset.orden = ordenInicial ? "asc" : "desc";
+        arrFilas.sort(function(a, b) {
+            const aMedallas = a.querySelector("td:nth-child(5) em").textContent;
+            const bMedallas = b.querySelector("td:nth-child(5) em").textContent;
+            return (parseInt(aMedallas) - parseInt(bMedallas)) * factor;
+        });
+        arrFilas.forEach(function(fila) {
+            tabla.querySelector("tbody").appendChild(fila);
+        });
+    });
 }
+
+  
+
+
 
 /**
  * Función principal para recuperar los tenistas desde el MS y, posteriormente, imprimirlos.

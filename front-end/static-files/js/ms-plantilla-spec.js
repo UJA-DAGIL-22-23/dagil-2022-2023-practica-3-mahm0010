@@ -83,57 +83,84 @@ function esperar(ms) {
 
 describe("Pruebas para la función Plantilla.imprime()", function () {
   
-    it("Comprueba que se ordena la tabla por nombre", function () {
-      Plantilla.imprime(datosTenistasPrueba);
-      const botonOrdenarNombre = document.querySelector("#ordenar-nombre");
-      expect(botonOrdenarNombre).toBeDefined();
-      spyOn(Array.prototype, "sort");
-      botonOrdenarNombre.click();
-      expect(Array.prototype.sort).toHaveBeenCalled();
-    });
+    it("Comprueba que se ordena la tabla por nombre y que el nombre del primer tenista es alfabéticamente mayor que el segundo", function () {
+        Plantilla.imprime(datosTenistasPrueba);
+        const botonOrdenarNombre = document.querySelector("#ordenar-nombre");
+        expect(botonOrdenarNombre).toBeDefined();
+        spyOn(Array.prototype, "sort");
+        botonOrdenarNombre.click();
+        expect(Array.prototype.sort).toHaveBeenCalled();
+        const tabla = document.querySelector(".listado-tenistas");
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const nombre1 = arrFilas[0].querySelector("td:first-child em").textContent;
+        const nombre2 = arrFilas[1].querySelector("td:first-child em").textContent;
+        expect(nombre1.localeCompare(nombre2) < 0).toBeTrue();
+      });
+      
   
-    it("Comprueba que se ordena la tabla por apellidos", function () {
+    it("Comprueba que se ordena la tabla por apellidos y que el apellido del primer tenista es alfabéticamente mayor que el segundo", function () {
       Plantilla.imprime(datosTenistasPrueba);
       const botonOrdenarApellidos = document.querySelector("#ordenar-apellidos");
       expect(botonOrdenarApellidos).toBeDefined();
       spyOn(Array.prototype, "sort");
       botonOrdenarApellidos.click();
       expect(Array.prototype.sort).toHaveBeenCalled();
+      const tabla = document.querySelector(".listado-tenistas");
+      const filas = tabla.querySelectorAll("tbody tr");
+      const arrFilas = Array.from(filas);
+      const apellido1 = arrFilas[0].querySelector("td:nth-child(2) em").textContent;
+      const apellido2 = arrFilas[1].querySelector("td:nth-child(2) em").textContent;
+      expect(apellido1.localeCompare(apellido2) < 0).toBeTrue();
     });
 
-    it("Comprueba que se ordena la tabla por fecha de nacimiento", function () {
+    it("Comprueba que se ordena la tabla por fecha de nacimiento correctamente", function () {
         Plantilla.imprime(datosTenistasPrueba);
         const botonFechaNac = document.querySelector("#ordenar-fechaNac");
         expect(botonFechaNac).toBeDefined();
         spyOn(Array.prototype, "sort");
         botonFechaNac.click();
         expect(Array.prototype.sort).toHaveBeenCalled();
+        const tabla = document.querySelector(".listado-tenistas");
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const fecha1 = arrFilas[0].querySelector("td:nth-child(3) em").textContent;
+        const fecha2 = arrFilas[1].querySelector("td:nth-child(3) em").textContent;
+        const fecha1Date = new Date(Date.parse(fecha1.split("/").reverse().join("-")));
+        const fecha2Date = new Date(Date.parse(fecha2.split("/").reverse().join("-")));
+        expect(fecha1Date.getTime() > fecha2Date.getTime()).toBeTrue();
       });
 
-      it("Comprueba que se ordena la tabla por participaciones en mundiales", function () {
+      it("Comprueba que se ordena la tabla por participaciones en mundiales correctamente", function () {
         Plantilla.imprime(datosTenistasPrueba);
         const botonPartMundial = document.querySelector("#ordenar-partMundial");
         expect(botonPartMundial).toBeDefined();
         spyOn(Array.prototype, "sort");
         botonPartMundial.click();
         expect(Array.prototype.sort).toHaveBeenCalled();
+        const tabla = document.querySelector(".listado-tenistas");
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const partMundiales1 = arrFilas[0].querySelector("td:nth-child(4) em").textContent.split(',').length;
+        const partMundiales2 = arrFilas[1].querySelector("td:nth-child(4) em").textContent.split(',').length;
+        expect(partMundiales1 < partMundiales2).toBeTrue();
       });
 
-      it("Comprueba que se ordena la tabla por número de medallas", function () {
+      it("Comprueba que se ordena la tabla por número de medallas correctamente", function () {
         Plantilla.imprime(datosTenistasPrueba);
         const botonOrdenarMedallas = document.querySelector("#ordenar-numMedallas");
         expect(botonOrdenarMedallas).toBeDefined();
         spyOn(Array.prototype, "sort");
         botonOrdenarMedallas.click();
         expect(Array.prototype.sort).toHaveBeenCalled();
+        const tabla = document.querySelector(".listado-tenistas");
+        const filas = tabla.querySelectorAll("tbody tr");
+        const arrFilas = Array.from(filas);
+        const numMedallas1 = arrFilas[0].querySelector("td:nth-child(4) em").textContent;
+        const numMedallas2 = arrFilas[1].querySelector("td:nth-child(4) em").textContent;
+        expect(numMedallas1 < numMedallas2).toBeTrue();
       });
 })
-
-
-
-
-
-
 
 describe("Plantilla.cuerpoTr: ", function () {
     it("la tabla con el listado de los tenistas se genera correctamente",

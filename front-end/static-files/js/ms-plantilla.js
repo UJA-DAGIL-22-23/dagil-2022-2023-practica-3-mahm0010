@@ -93,6 +93,13 @@ Plantilla.imprime = function (vector) {
     let msj = "";
     msj += Plantilla.cabeceraTable();
 
+    // Ordenamos el vector alfabéticamente por nombre
+    vector.sort(function(a, b) {
+        const aNombre = a.data.nombre;
+        const bNombre = b.data.nombre;
+        return aNombre.localeCompare(bNombre);
+    });
+
     vector.forEach(e => msj += Plantilla.cuerpoTr(e))
     msj += Plantilla.pieTable();
 

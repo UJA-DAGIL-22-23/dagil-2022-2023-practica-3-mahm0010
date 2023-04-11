@@ -133,3 +133,18 @@
   numMedallas: 3
 }
 ```
+
+## Incremento 1
+Para el primer incremento he implementado las funcionalidades 1, 2 y 6.
+
+Para ello empecé creando las correspondientes tarjetas en el tablero de Trello:![Alt text](assets/img/trello-incremento1.png)
+
+A continuación fui implementando las tres funcionalidades.
+
+1:![Alt text](assets/img/funcionalidad-1.png)
+2:![Alt text](assets/img/funcionalidad-2.png)
+6:![Alt text](assets/img/funcionalidad-6.png)
+
+Así, tras pasar todas las pruebas que había programado previamente y revisar el correcto funcionamiento de las funcionalidades, queda terminado mi primer incremento.
+
+Así queda el tablero de Trello al final:![Alt text](assets/img/trello-incremento1-done.png)

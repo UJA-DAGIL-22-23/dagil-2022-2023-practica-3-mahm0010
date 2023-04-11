@@ -176,6 +176,38 @@ describe("Plantilla.cuerpoTr: ", function () {
       })
   })
 
+  describe("Plantilla.cabeceraTable", function() {
+    it("debería contener un th para el nombre", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<th><a href="#" id="ordenar-nombre">Nombre</a></th>');
+    });
+  
+    it("debería contener un th para los apellidos", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<th><a href="#" id="ordenar-apellidos">Apellidos</a></th>');
+    });
+  
+    it("debería contener un th para la fecha de nacimiento", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<th><a href="#" id="ordenar-fechaNac">Fecha de nacimiento</a></th>');
+    });
+  
+    it("debería contener un th para las participaciones mundiales", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<th><a href="#" id="ordenar-partMundial">Participaciones mundiales</a></th>');
+    });
+  
+    it("debería contener un th para el número de medallas", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<th><a href="#" id="ordenar-numMedallas">Número de medallas</a></th>');
+    });
+  
+    it("debería contener un th para las acciones", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<th>Acciones</th>');
+    });
+  });
+  
+  describe("Plantilla.pieTable", function() {
+    it("debería contener el pie de la tabla", function() {
+      expect(Plantilla.pieTable()).toContain('</tbody></table>');
+    });
+  });
+
   describe("Plantilla.imprimeUnTenista: ", function () {
     it("mostrar todos los tipos de datos de un tenista",
       function () {

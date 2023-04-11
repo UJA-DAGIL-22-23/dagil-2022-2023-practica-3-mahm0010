@@ -148,3 +148,15 @@ A continuación fui implementando las tres funcionalidades.
 Así, tras pasar todas las pruebas que había programado previamente y revisar el correcto funcionamiento de las funcionalidades, queda terminado mi primer incremento.
 
 Así queda el tablero de Trello al final:![Alt text](assets/img/trello-incremento1-done.png)
+
+
+## Incremento 2
+Para el segundo incremento decidí implementar las funcionalidades 3, 4 y 5:![Alt text](assets/img/trello-incremento2.png)
+
+Comencé con la número **3**, modificando la tabla con el listado de tenistas implementada anteriormente:![Alt text](assets/img/funcionalidad-3.png)
+
+A continuación empecé a incluir el resto de datos de los tenistas en la tabla tal y como pide la funcionalidad número **4**:![Alt text](assets/img/funcionalidad-4.png)
+
+Por último añadí la funcionalidad número **5** de forma que al pulsar con el ratón sobre el nombre de cualquiera de las columnas de la tabla con datos sobre el tenista, esta se ordenara de forma ascendente o descendente en función del dato que almacene dicha columna: Alfabéticamente en el caso del nombre o los apellidos, numéricamente en el caso de participaciones en mundiales o número de medallas y temporalmente en el caso de la fecha de nacimiento:![Alt text](assets/img/funcionalidad-5.png)![Alt text](assets/img/funcionalidad-5.1.png)![Alt text](assets/img/funcionalidad-5.2.png)![Alt text](assets/img/funcionalidad-5.3.png)![Alt text](assets/img/funcionalidad-5.4.png)
+
+Una vez implementadas y comprobadas todas las funcionalidades, las marqué como completadas en el tablero de Trello finalizando así mi segundo incremento:![Alt text](assets/img/trello-incremento2-done.png)

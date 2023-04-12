@@ -90,6 +90,22 @@ describe('Servidor PLANTILLA:', () => {
         );
     });
 
+    it('Devuelve Daniel Hernandez al recuperar los datos de la Persona con id 361531285110259916 mediante getPorId', (done) => {
+      supertest(app)
+        .get('/getPorId/361531285110259916')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Daniel");
+          assert(res.body.data.hasOwnProperty('apellidos'));
+          assert(res.body.data.apellidos === "Hernandez");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
   })
 });
 

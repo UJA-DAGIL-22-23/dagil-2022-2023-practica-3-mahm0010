@@ -10,6 +10,8 @@
 /// Creo el espacio de nombres
 let Plantilla = {};
 
+let _vector = null;
+
 
 /**
  * Función que recupera todos los tenistas llamando al MS Plantilla
@@ -74,7 +76,7 @@ Plantilla.cuerpoTr = function (t) {
     <td><em>${d.partMundial.join(", ")}</em></td>
     <td><em>${d.numMedallas}</em></td>
     <td>
-        <div><a href="javascript:Plantilla.mostrar('${t.ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        <div><a href="javascript:Plantilla.mostrar('${t.ref['@ref'].id}')" class="opcion-secundaria">Mostrar</a></div>
     </td>
     </tr>
     `;
@@ -89,7 +91,9 @@ Plantilla.pieTable = function () {
 }
 
 Plantilla.imprime = function (vector) {
-    console.log( vector ) // Para comprobar lo que hay en vector
+    //console.log( vector ) // Para comprobar lo que hay en vector
+    _vector = vector;
+    console.log( _vector ) // Para comprobar lo que hay en _vector
     let msj = "";
     msj += Plantilla.cabeceraTable();
 
@@ -222,8 +226,23 @@ Plantilla.listar = function () {
  * @param {String} idTenista Identificador del tenista a mostrar
  */
 Plantilla.mostrar = function (idTenista) {
-    this.recuperaUnTenista(idTenista, this.imprimeUnTenista);
+    let tenistaSeleccionado = null;
+    let indiceTenistaSeleccionado = 0;
+
+    for (let i = 0; i < _vector.length; i++) {
+        if (_vector[i].ref['@ref'].id === idTenista) {
+            tenistaSeleccionado = _vector[i];
+            indiceTenistaSeleccionado = i;
+            break;
+        }
+    }
+
+    // Mostrar los datos del tenista
+    this.recuperaUnTenista(tenistaSeleccionado.ref['@ref'].id, this.imprimeUnTenista, indiceTenistaSeleccionado - 1, indiceTenistaSeleccionado + 1);
 }
+
+  
+
 
 /**
  * Función que recupera un tenista llamando al MS Plantilla. 
@@ -231,13 +250,13 @@ Plantilla.mostrar = function (idTenista) {
  * @param {String} idTenista Identificador del tenista a mostrar
  * @param {función} callBackFn Función a la que se llamará una vez recibidos los datos.
  */
-Plantilla.recuperaUnTenista = async function (idTenista, callBackFn) {
+Plantilla.recuperaUnTenista = async function (idTenista, callBackFn, indiceAnterior, indiceSiguiente) {
     try {
         const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idTenista
         const response = await fetch(url);
         if (response) {
             const tenista = await response.json()
-            callBackFn(tenista)
+            callBackFn(tenista, indiceAnterior, indiceSiguiente)
         }
     } catch (error) {
         alert("Error: No se han podido acceder al API Gateway al recuperar un tenista")
@@ -249,8 +268,7 @@ Plantilla.recuperaUnTenista = async function (idTenista, callBackFn) {
  * Función para mostrar en pantalla los datos del tenista recuperado.
  * @param {Tenista} tenista Datos del tenista a mostrar
  */
-Plantilla.imprimeUnTenista = function (tenista) {
-    console.log( tenista ) // Para comprobar lo que hay en tenista
+Plantilla.imprimeUnTenista = function (tenista, indiceAnterior, indiceSiguiente) {
     const fechaNac = `${tenista.data.fechaNac.dia}/${tenista.data.fechaNac.mes}/${tenista.data.fechaNac.ano}`;
     const partMundial = tenista.data.partMundial.join(", ");
     let msj = "";
@@ -264,9 +282,22 @@ Plantilla.imprimeUnTenista = function (tenista) {
             </tbody>
         </table>`;
 
-    // Borro toda la info de Article y la sustituyo por la que me interesa
-    Frontend.Article.actualizar( "Detalle de tenista", msj )
+    if(_vector[indiceAnterior]?.ref['@ref'].id){
+        msj += `<div><a href="javascript:Plantilla.mostrar('${_vector[indiceAnterior]?.ref['@ref'].id}')" class="opcion-secundaria boton-anterior">Anterior</a></div>`;
+    }
+    if(_vector[indiceSiguiente]?.ref['@ref'].id){
+        msj += `<div><a href="javascript:Plantilla.mostrar('${_vector[indiceSiguiente]?.ref['@ref'].id}')" class="opcion-secundaria boton-siguiente">Siguiente</a></div>`;
+    }
+
+    Frontend.Article.actualizar("Detalle de tenista", msj);
 }
+
+
+
+
+
+
+
 
 
 

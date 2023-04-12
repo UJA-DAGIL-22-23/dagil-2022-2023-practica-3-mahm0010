@@ -209,32 +209,23 @@ describe("Plantilla.cuerpoTr: ", function () {
   });
 
   describe("Plantilla.imprimeUnTenista: ", function () {
-    it("mostrar todos los tipos de datos de un tenista",
-      function () {
-        const tenista = {
-        data: {
-          nombre: "Rafael",
-          apellidos: "Nadal",
-          fechaNac: {
-            dia: 3,
-            mes: 6,
-            ano: 1986
-          },
-          partMundial: [2009, 2012, 2015],
-          numMedallas: 3
-        }
-    }
-        console.log(tenista);
+    it("mostrar todos los tipos de datos de un tenista", function () {
+        const tenista = datosTenistasPrueba[0];
         const fechaNac = `${tenista.data.fechaNac.dia}/${tenista.data.fechaNac.mes}/${tenista.data.fechaNac.ano}`;
         const partMundial = tenista.data.partMundial.join(", ");
-        Plantilla.imprimeUnTenista(tenista)
+        Plantilla.imprime(datosTenistasPrueba);
+        Plantilla.imprimeUnTenista(tenista, 0, 1)
         expect(elementoContenido.innerHTML).toContain(`<tr><th>Nombre</th><td>${tenista.data.nombre}</td></tr>`)
         expect(elementoContenido.innerHTML).toContain(`<tr><th>Apellidos</th><td>${tenista.data.apellidos}</td></tr>`)
         expect(elementoContenido.innerHTML).toContain(`<tr><th>Fecha Nacimiento</th><td>${fechaNac}</td></tr>`)
         expect(elementoContenido.innerHTML).toContain(`<tr><th>Participaciones en mundiales</th><td>${partMundial}</td></tr>`)
         expect(elementoContenido.innerHTML).toContain(`<tr><th>Número de medallas</th><td>${tenista.data.numMedallas}</td></tr>`)
-      })
-  })
+      });
+    
+    it("la función imprimeUnTenista recibe los parámetros necesarios (3)", function (){
+      expect(Plantilla.imprimeUnTenista.length).toEqual(3);
+    });
+  });
   
 
 describe("Plantilla.mostrarHome: ", function () {

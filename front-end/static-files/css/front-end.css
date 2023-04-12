@@ -15,17 +15,9 @@
 #seccion-principal {
     width: 100%;
 }
-.mostrar {
-    display: inline-block;
-}
-
-.ocultar {
-    display: none;
-}
 
 .opcion-principal,
-.opcion-secundaria,
-.opcion-terciaria {
+.opcion-secundaria{
     border: 2px solid rgba(100, 100, 100, 0.5);
     border-radius: .5em 0 .5em 0;
     padding: .5em;
@@ -42,9 +34,16 @@
 .opcion-principal {
     margin: 0 .5em 0 .5em;
 }
-.opcion-secundaria,
-.opcion-terciaria {
+.opcion-secundaria{
     max-width: 5em;
     min-width: 5em;
     margin: 0.2em auto 0.2em auto;
+}
+
+.boton-anterior {
+    float: left;
+}
+
+.boton-siguiente {
+    float: right;
 }

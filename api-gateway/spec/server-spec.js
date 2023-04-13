@@ -39,6 +39,35 @@ describe('API Gateway: rutas estáticas', () => {
         })
         .end((error) => { error ? done.fail(error) : done() })
     });
+
+    it('Devuelve un vector de tamaño 10 al consultar mediante /plantilla/getTodos', (done) => {
+      supertest(app)
+        .get('/plantilla/getTodos')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          // console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.length === 10);
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
+    it('Devuelve Daniel Hernandez al recuperar los datos de la Persona con id 361531285110259916 mediante /plantilla/getPorId', (done) => {
+      supertest(app)
+        .get('/plantilla/getPorId/361531285110259916')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Daniel");
+          assert(res.body.data.hasOwnProperty('apellidos'));
+          assert(res.body.data.apellidos === "Hernandez");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
   })
 });
 

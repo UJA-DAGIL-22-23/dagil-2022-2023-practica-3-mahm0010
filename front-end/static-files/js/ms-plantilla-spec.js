@@ -80,6 +80,20 @@ function esperar(ms) {
 
 // SPECS a probar
 
+describe("Plantilla.filtraVector: ", function () {
+    let vector_prueba = []
+    it("si se pasa un vector vacío el array que devuelve tiene tamaño 0",
+        function () {
+            vector_prueba = Plantilla.filtraVector(vector_prueba)
+            //console.log("si se pasa un vector vacío el array que devuelve tiene tamaño 0")
+            //console.log(vector_prueba)
+            expect(vector_prueba).toHaveSize(0)
+    })
+
+    // No puedo probar si se le pasa un array normal ya que document.getElementById("busqueda").value aún no está cargado
+    // y por lo tanto su valor es undefined
+})
+
 
 describe("Pruebas para la función Plantilla.imprime()", function () {
   

@@ -50,6 +50,11 @@ Plantilla.recupera = async function (callBackFn) {
  */
 Plantilla.cabeceraTable = function () {
     return `<table class="listado-tenistas">
+    <div>
+        <label for="busqueda">Buscar:</label>
+        <input type="text" id="busqueda" name="busqueda">
+        <button onclick="Plantilla.buscar()">Buscar</button>
+    </div>
         <thead>
         <th><a href="#" id="ordenar-nombre">Nombre</a></th>
         <th><a href="#" id="ordenar-apellidos">Apellidos</a></th>
@@ -294,6 +299,67 @@ Plantilla.imprimeUnTenista = function (tenista, indiceAnterior, indiceSiguiente)
 
 
 
+
+// Función que busca un tenista que cumpla un determinado criterio de búsqueda
+Plantilla.buscar = function () {
+    Plantilla.recupera(this.filtraVector)
+}
+
+/**
+ * Función que filtra todos los tenistas según el criterio de búsqueda que se le pase.
+ * Se puede buscar por Nombre, Apellidos, Fecha de Nacimiento y Número de medallas
+ * @param {tenistas} vector Vector con todos los tenistas de la base de datos 
+ */
+Plantilla.filtraVector = function (vector) {
+
+    //console.log("---flitraVector---")
+    //console.log(vector);
+
+    vector = vector || Plantilla.vectorTenistasNulos
+
+    if (typeof vector !== "object") vector = Plantilla.vectorTenistasNulos
+
+    // Comprueba que terminoBusqueda no sea undefined
+    const terminoBusqueda = document.getElementById("busqueda");
+    if (terminoBusqueda) {
+
+        // Filtra todos los tensitas según el criterio de búsqueda que se obtiene
+        const terminoBusquedaValor = terminoBusqueda.value.trim().toLowerCase();
+        const vectorFiltrado = vector.filter(jugador =>
+            jugador.data.nombre.toLowerCase().includes(terminoBusquedaValor)
+        );
+
+
+        // Imprime el vector filtrado y devuelve el vector filtrado para los expects
+        Plantilla.imprime(vectorFiltrado);
+        return vectorFiltrado;
+    } else {
+
+        // Devuelve un vector vacío
+        return []
+    }
+}
+
+Plantilla.vectorTenistasNulos = [
+    {
+        ref: {
+            "@ref": {
+                id: ""
+            }
+        },
+        data: {
+            nombre: "",
+            apellidos: "",
+            fechaNac: {
+                dia: "",
+                mes: "",
+                año: ""
+            },
+            partMundial: [],
+            numMedallas: ""
+        }
+    }
+];
 
 
 

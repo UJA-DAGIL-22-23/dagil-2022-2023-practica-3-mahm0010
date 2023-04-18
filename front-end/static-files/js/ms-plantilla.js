@@ -307,7 +307,7 @@ Plantilla.buscar = function () {
 
 /**
  * Función que filtra todos los tenistas según el criterio de búsqueda que se le pase.
- * Se puede buscar por Nombre, Apellidos, Fecha de Nacimiento y Número de medallas
+ * Se puede buscar por Nombre, Apellidos, años de Participaciones en Mundiales y Número de medallas
  * @param {tenistas} vector Vector con todos los tenistas de la base de datos 
  */
 Plantilla.filtraVector = function (vector) {
@@ -325,8 +325,12 @@ Plantilla.filtraVector = function (vector) {
 
         // Filtra todos los tensitas según el criterio de búsqueda que se obtiene
         const terminoBusquedaValor = terminoBusqueda.value.trim().toLowerCase();
+        const isNumero = /^\d+$/.test(terminoBusquedaValor);
         const vectorFiltrado = vector.filter(jugador =>
-            jugador.data.nombre.toLowerCase().includes(terminoBusquedaValor)
+            jugador.data.nombre.toLowerCase().includes(terminoBusquedaValor) ||
+            jugador.data.apellidos.toLowerCase().includes(terminoBusquedaValor) ||
+            (isNumero && jugador.data.partMundial.includes(Number(terminoBusquedaValor))) ||
+            jugador.data.numMedallas.toString().includes(terminoBusquedaValor)
         );
 
 

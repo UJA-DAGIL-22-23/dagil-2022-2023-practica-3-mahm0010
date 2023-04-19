@@ -84,14 +84,41 @@ describe("Plantilla.filtraVector: ", function () {
     let vector_prueba = []
     it("si se pasa un vector vacío el array que devuelve tiene tamaño 0",
         function () {
-            vector_prueba = Plantilla.filtraVector(vector_prueba)
+            vector_prueba = Plantilla.filtraVector(vector_prueba, "prueba")
             //console.log("si se pasa un vector vacío el array que devuelve tiene tamaño 0")
             //console.log(vector_prueba)
             expect(vector_prueba).toHaveSize(0)
-    })
+    });
 
-    // No puedo probar si se le pasa un array normal ya que document.getElementById("busqueda").value aún no está cargado
-    // y por lo tanto su valor es undefined
+    it("Debería filtrar correctamente por nombre", () => {
+      console.log("Debería filtrar correctamente por nombre")
+      console.log(datosTenistasPrueba)
+      expect(Plantilla.filtraVector(datosTenistasPrueba, "Rafael")).toEqual([{ref: {"@ref": {id: "ref tenista 1"}}, data: {nombre: "Rafael", apellidos: "Nadal", fechaNac: {dia: 3, mes: 6, ano: 1986}, partMundial: [2009, 2012, 2015], numMedallas: 3}}]);
+    });
+
+    it("Debería filtrar correctamente por apellidos", () => {
+      //console.log("Debería filtrar correctamente por apellidos")
+      //console.log(datosTenistasPrueba)
+      expect(Plantilla.filtraVector(datosTenistasPrueba, "Djokovic")).toEqual([{ref: {"@ref": {id: "ref tenista 2"}}, data:{nombre: "Novak", apellidos: "Djokovic", fechaNac: {dia: 22, mes: 5, ano: 1987}, partMundial: [2009, 2012], numMedallas: 2}}]);
+    });
+
+    it("Debería filtrar correctamente por participaciones en mundiales", () => {
+      //console.log("Debería filtrar correctamente por participaciones en mundiales")
+      //console.log(datosTenistasPrueba)
+      expect(Plantilla.filtraVector(datosTenistasPrueba, "2015")).toEqual([{ref: {"@ref": {id: "ref tenista 1"}}, data: {nombre: "Rafael", apellidos: "Nadal", fechaNac: {dia: 3, mes: 6, ano: 1986}, partMundial: [2009, 2012, 2015], numMedallas: 3}}]);
+    });
+
+    it("Debería filtrar correctamente por número de medallas", () => {
+      //console.log("Debería filtrar correctamente por número de medallas")
+      //console.log(datosTenistasPrueba)
+      expect(Plantilla.filtraVector(datosTenistasPrueba, "3")).toEqual([{ref: {"@ref": {id: "ref tenista 1"}}, data: {nombre: "Rafael", apellidos: "Nadal", fechaNac: {dia: 3, mes: 6, ano: 1986}, partMundial: [2009, 2012, 2015], numMedallas: 3}}]);
+    });
+
+    it("Debería filtrar correctamente si no coincide ningún tenista con el criterio de búsqueda", () => {
+      //console.log("Debería filtrar correctamente si no coincide ningún tenista con el criterio de búsqueda")
+      //console.log(datosTenistasPrueba)
+      expect(Plantilla.filtraVector(datosTenistasPrueba, "Daniel")).toEqual([]);
+    });
 })
 
 
@@ -213,6 +240,13 @@ describe("Plantilla.cuerpoTr: ", function () {
   
     it("debería contener un th para las acciones", function() {
       expect(Plantilla.cabeceraTable()).toContain('<th>Acciones</th>');
+    });
+    it("debería contener un div con el formulario de búsqueda", function() {
+      expect(Plantilla.cabeceraTable()).toContain('<div>');
+      expect(Plantilla.cabeceraTable()).toContain('<label for="busqueda">Buscar:</label>');
+      expect(Plantilla.cabeceraTable()).toContain('<input type="text" id="busqueda" name="busqueda">');
+      expect(Plantilla.cabeceraTable()).toContain('<button onclick="Plantilla.buscar()">Buscar</button>');
+      expect(Plantilla.cabeceraTable()).toContain('</div>');
     });
   });
   

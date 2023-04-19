@@ -330,10 +330,10 @@ Plantilla.filtraVector = function (vector, _terminoBusqueda) {
         const terminoBusquedaValor = terminoBusqueda.toLowerCase();
         const isNumero = /^\d+$/.test(terminoBusquedaValor);
         const vectorFiltrado = vector.filter(jugador =>
-            jugador.data.nombre.toLowerCase().includes(terminoBusquedaValor) ||
-            jugador.data.apellidos.toLowerCase().includes(terminoBusquedaValor) ||
+            jugador.data.nombre.toLowerCase() === terminoBusquedaValor ||
+            jugador.data.apellidos.toLowerCase() === terminoBusquedaValor ||
             (isNumero && jugador.data.partMundial.includes(Number(terminoBusquedaValor))) ||
-            jugador.data.numMedallas.toString().includes(terminoBusquedaValor)
+            jugador.data.numMedallas.toString() === terminoBusquedaValor
         );
 
 

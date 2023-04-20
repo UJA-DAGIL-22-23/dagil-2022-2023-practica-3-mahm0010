@@ -162,7 +162,7 @@ Por último añadí la funcionalidad número **5** de forma que al pulsar con el
 Una vez implementadas y comprobadas todas las funcionalidades, las marqué como completadas en el tablero de Trello finalizando así mi segundo incremento:![Alt text](assets/img/trello-incremento2-done.png)
 
 ## Incremento 3
-Para el segundo incremento decidí implementar las funcionalidades 7, 8 y 9:![Alt text](assets/img/trello-incremento3.png)
+Para el tercer incremento decidí implementar las funcionalidades 7, 8 y 9:![Alt text](assets/img/trello-incremento3.png)
 
 Empecé a trabajar en la número **7**. Para ello añadí dos nuevos botones que se renderizarían tan solo si se cumplía una condición que comprobaba si había un tenista anterior o siguiente en el listado. De esta forma, si se presiona uno de los dos botones se mostrarán los datos del tenista correspondiente de la misma forma que en la función mostrar de la funcionalidad 6:
 
@@ -173,13 +173,13 @@ El segundo:
 Y el último:
 ![Alt text](assets/img/funcionalidad-7.3.png)
 
-Una vez comprobado el correcto funcionamiento de esta funcionalidad, me puse a trabajar en la **8**. Para ella, coloqué un nuevo formulario y botón encima de la tabla del listado de los tenistas creado en el primer incremento. En el podremos introducir el dato a buscar en el tenista. Tras ello, implementé el código necesario para que cuando se presione el botón de buscar al lado del formulario, se busque en el listado los tenistas cuyo nombre coincida con el introducido. Esto lo hago realizando un filtrado del vector de tenistas, de forma que se devuelve un vector con tan solo los tenistas que cumplan el criterio de búsqueda introducido, y por tanto este es el vector que se listará al presionar el botón:
+Una vez comprobado el correcto funcionamiento de esta funcionalidad, me puse a trabajar en la **8**. Para ella, coloqué un nuevo formulario y botón encima de la tabla del listado de los tenistas creado en el primer incremento. En él, podremos introducir el dato a buscar de los tenistas. Tras ello, implementé el código necesario para que cuando se presione el botón de buscar al lado del formulario, se busque en el listado los tenistas cuyo nombre coincida con el introducido. Esto lo hago realizando un filtrado del vector de tenistas, de forma que se devuelve un vector con tan solo los tenistas que cumplan el criterio de búsqueda introducido, y por tanto este es el vector que se listará al presionar el botón:
 
 Introducimos el nombre a buscar:![Alt text](assets/img/funcionalidad-8.1.png)
 
-Y presionamos el botón obteniendo el nuevo listado ya filtrado con los tenistas cuyo nombre sea el introducido en la búsqueda:![Alt text](assets/img/funcionalidad-8.2.png)
+Y presionamos el botón, obteniendo el nuevo listado ya filtrado con los tenistas cuyo nombre sea el introducido en la búsqueda:![Alt text](assets/img/funcionalidad-8.2.png)
 
-Por último, para la funcionalidad número **9** debía modificar el código de la anterior para poder filtrar el listado con diferentes datos de los tenistas. Escogí los campos apellidos, participaciones en mundiales y número de medallas.
+Por último, para la funcionalidad número **9**, debía modificar el código de la anterior para poder filtrar el listado con diferentes datos de los tenistas. Escogí los campos apellidos, participaciones en mundiales y número de medallas.
 
 Para los apellidos funciona igual que el nombre:
 ![Alt text](assets/img/funcionalidad-9.1.png)![Alt text](assets/img/funcionalidad-9.2.png)
@@ -190,7 +190,7 @@ Para el campo de participaciones en mundiales, podremos buscar uno de los años 
 Y de forma parecida, podemos buscar un número de medallas y obtendremos un listado con los tenistas que tengan ese mismo número de medallas:
 ![Alt text](assets/img/funcionalidad-9.5.png)![Alt text](assets/img/funcionalidad-9.6.png)
 
-El nuevo listado que se obtiene tras una búsqueda tiene las mismas funcionalidades que el anterior, de forma que podemos ver los detalles completos de los tenistas así como recorrerlo con los botones anterior y siguiente:
+El nuevo listado que se obtiene tras una búsqueda tiene las mismas funcionalidades que el principal, de forma que podemos ver los detalles completos de los tenistas así como recorrerlo con los botones anterior y siguiente:
 ![Alt text](assets/img/funcionalidad-9.7.png) ![Alt text](assets/img/funcionalidad-9.8.png) ![Alt text](assets/img/funcionalidad-9.9.png)
 
 De esta forma, quedan completadas mis funcionalidades escogidas para el tercer incremento:

@@ -91,8 +91,8 @@ describe("Plantilla.filtraVector: ", function () {
     });
 
     it("Debería filtrar correctamente por nombre", () => {
-      console.log("Debería filtrar correctamente por nombre")
-      console.log(datosTenistasPrueba)
+      //console.log("Debería filtrar correctamente por nombre")
+      //console.log(datosTenistasPrueba)
       expect(Plantilla.filtraVector(datosTenistasPrueba, "Rafael")).toEqual([{ref: {"@ref": {id: "ref tenista 1"}}, data: {nombre: "Rafael", apellidos: "Nadal", fechaNac: {dia: 3, mes: 6, ano: 1986}, partMundial: [2009, 2012, 2015], numMedallas: 3}}]);
     });
 

@@ -98,7 +98,7 @@ Plantilla.pieTable = function () {
 Plantilla.imprime = function (vector) {
     //console.log( vector ) // Para comprobar lo que hay en vector
     _vector = vector;
-    console.log( _vector ) // Para comprobar lo que hay en _vector
+    //console.log( _vector ) // Para comprobar lo que hay en _vector
     let msj = "";
     msj += Plantilla.cabeceraTable();
 
@@ -214,10 +214,6 @@ Plantilla.imprime = function (vector) {
     });
 }
 
-  
-
-
-
 /**
  * Función principal para recuperar los tenistas desde el MS y, posteriormente, imprimirlos.
  * @returns True
@@ -245,9 +241,6 @@ Plantilla.mostrar = function (idTenista) {
     // Mostrar los datos del tenista
     this.recuperaUnTenista(tenistaSeleccionado.ref['@ref'].id, this.imprimeUnTenista, indiceTenistaSeleccionado - 1, indiceTenistaSeleccionado + 1);
 }
-
-  
-
 
 /**
  * Función que recupera un tenista llamando al MS Plantilla. 
@@ -287,6 +280,7 @@ Plantilla.imprimeUnTenista = function (tenista, indiceAnterior, indiceSiguiente)
             </tbody>
         </table>`;
 
+    //Botones anterior y siguiente para mostrar (si existe) el anterior o siguiente tenista del listado actual
     if(_vector[indiceAnterior]?.ref['@ref'].id){
         msj += `<div><a href="javascript:Plantilla.mostrar('${_vector[indiceAnterior]?.ref['@ref'].id}')" class="opcion-secundaria boton-anterior">Anterior</a></div>`;
     }
@@ -297,9 +291,6 @@ Plantilla.imprimeUnTenista = function (tenista, indiceAnterior, indiceSiguiente)
     Frontend.Article.actualizar("Detalle de tenista", msj);
 }
 
-
-
-
 // Función que busca un tenista que cumpla un determinado criterio de búsqueda
 Plantilla.buscar = function () {
     Plantilla.recupera(this.filtraVector)
@@ -309,6 +300,8 @@ Plantilla.buscar = function () {
  * Función que filtra todos los tenistas según el criterio de búsqueda que se le pase.
  * Se puede buscar por Nombre, Apellidos, años de Participaciones en Mundiales y Número de medallas
  * @param {tenistas} vector Vector con todos los tenistas de la base de datos 
+ * @param {String} _terminoBusqueda Término de búsqueda con el que se realizará el filtrado (se usará 
+ * para comprobar el comportamiento de la función con los diferentes tests de Jasmine que se han creado para este método) 
  */
 Plantilla.filtraVector = function (vector, _terminoBusqueda) {
 
@@ -318,22 +311,21 @@ Plantilla.filtraVector = function (vector, _terminoBusqueda) {
 
     vector = vector || Plantilla.vectorTenistasNulos
 
-    const terminoBusqueda = _terminoBusqueda || document.getElementById("busqueda").value.trim()
+    const terminoBusqueda = _terminoBusqueda || document.getElementById("busqueda").value.trim()    // Si no se pasa un término de búsqueda, se obtendrá el escrito en el formulario de búsqueda.
 
     if (typeof vector !== "object") vector = Plantilla.vectorTenistasNulos
 
     // Comprueba que terminoBusqueda no sea undefined
-    //const terminoBusqueda = document.getElementById("busqueda");
     if (terminoBusqueda) {
 
         // Filtra todos los tensitas según el criterio de búsqueda que se obtiene
         const terminoBusquedaValor = terminoBusqueda.toLowerCase();
         const isNumero = /^\d+$/.test(terminoBusquedaValor);
-        const vectorFiltrado = vector.filter(jugador =>
-            jugador.data.nombre.toLowerCase() === terminoBusquedaValor ||
-            jugador.data.apellidos.toLowerCase() === terminoBusquedaValor ||
-            (isNumero && jugador.data.partMundial.includes(Number(terminoBusquedaValor))) ||
-            jugador.data.numMedallas.toString() === terminoBusquedaValor
+        const vectorFiltrado = vector.filter(tenista =>
+            tenista.data.nombre.toLowerCase() === terminoBusquedaValor ||
+            tenista.data.apellidos.toLowerCase() === terminoBusquedaValor ||
+            (isNumero && tenista.data.partMundial.includes(Number(terminoBusquedaValor))) ||
+            tenista.data.numMedallas.toString() === terminoBusquedaValor
         );
 
 
@@ -367,13 +359,6 @@ Plantilla.vectorTenistasNulos = [
         }
     }
 ];
-
-
-
-
-
-
-
 
 
 // Plantilla de datosDescargados vacíos
